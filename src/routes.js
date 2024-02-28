@@ -55,6 +55,7 @@ import { IoBuild } from "react-icons/io5";
 import { BsCreditCardFill } from "react-icons/bs";
 import { IoStatsChart } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
+import AddUser from "layouts/User/AddUser";
 
 const routes = [
   {
@@ -82,6 +83,15 @@ const routes = [
     route: "/billing",
     icon: <BsCreditCardFill size="15px" color="inherit" />,
     component: Billing,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "AddUser",
+    key: "adduser",
+    route: "/add-user",
+    icon: <BsCreditCardFill size="15px" color="inherit" />,
+    component: AddUser,
     noCollapse: true,
   },
   {
