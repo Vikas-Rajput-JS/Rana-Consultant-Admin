@@ -78,7 +78,7 @@ function DefaultNavbar({ transparent, light, action }) {
 
   return (
     <Container>
-      <VuiBox
+      {/* <VuiBox
         py={2}
         px={{ xs: transparent ? 4 : 3, sm: transparent ? 2 : 3, lg: transparent ? 0 : 3 }}
         my={2}
@@ -172,7 +172,7 @@ function DefaultNavbar({ transparent, light, action }) {
             {mobileNavbar ? "close" : "menu"}
           </Icon>
         </VuiBox>
-      </VuiBox>
+      </VuiBox> */}
       {mobileView && <DefaultNavbarMobile open={mobileNavbar} close={closeMobileNavbar} />}
     </Container>
   );
