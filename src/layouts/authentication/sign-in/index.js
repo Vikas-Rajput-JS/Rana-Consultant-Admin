@@ -58,14 +58,15 @@ function SignIn() {
       if (res1.success) {
         toast.success(res1.message);
         let setToken = localStorage.setItem("token", res1?.token);
-        if (setToken) {
+        console.log(setToken)
+    
           ApiClient.get("admin/profile").then((res) => {
             if (res.success) {
               dispatch(LOGIN_SUCCESS(res?.data));
               history.push("/dashboard");
             }
           });
-        }
+        
       }
     });
   };
