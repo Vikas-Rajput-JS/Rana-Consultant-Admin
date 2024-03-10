@@ -56,6 +56,7 @@ import { BsCreditCardFill } from "react-icons/bs";
 import { IoStatsChart } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
 import AddUser from "layouts/User/AddUser";
+import Users from "layouts/User/Html"
 
 const routes = [
   {
@@ -83,6 +84,14 @@ const routes = [
     route: "/billing",
     icon: <BsCreditCardFill size="15px" color="inherit" />,
     component: Billing,
+    noCollapse: true,
+  },  {
+    type: "collapse",
+    name: "Users",
+    key: "users",
+    route: "/users",
+    icon: <BsCreditCardFill size="15px" color="inherit" />,
+    component: Users,
     noCollapse: true,
   },
   {
@@ -117,7 +126,7 @@ const routes = [
     type: "collapse",
     name: "Sign In",
     key: "sign-in",
-    route: "/authentication/sign-in",
+    route: "/sign-in",
     icon: <IoIosDocument size="15px" color="inherit" />,
     component: SignIn,
     noCollapse: true,
@@ -126,7 +135,7 @@ const routes = [
     type: "collapse",
     name: "Sign Up",
     key: "sign-up",
-    route: "/authentication/sign-up",
+    route: "/sign-up",
     icon: <IoRocketSharp size="15px" color="inherit" />,
     component: SignUp,
     noCollapse: true,

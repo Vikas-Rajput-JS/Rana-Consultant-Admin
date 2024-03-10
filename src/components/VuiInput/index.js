@@ -81,6 +81,9 @@ VuiInput.defaultProps = {
   error: false,
   success: false,
   disabled: false,
+  onclick:(e)=>{
+console.log('dfgfdgdfgdfgdf')
+  }
 };
 
 // Typechecking props for the VuiInput
@@ -93,6 +96,7 @@ VuiInput.propTypes = {
   error: PropTypes.bool,
   success: PropTypes.bool,
   disabled: PropTypes.bool,
+  
 };
 
 export default VuiInput;

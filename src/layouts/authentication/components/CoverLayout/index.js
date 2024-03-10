@@ -124,7 +124,7 @@ function CoverLayout({
           justifyContent: "center",
           position: "relative",
           alignItems: "center",
-          maxWidth: "1044px",
+          maxWidth: "70%",
           minHeight: "75vh",
           margin: "0 auto",
         }}

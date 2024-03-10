@@ -60,6 +60,8 @@ import {
 // Images
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+import { useDispatch } from "react-redux";
+import { SEARCH_STATE } from "Redux/Action/Action";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -67,7 +69,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
-
+  const dispatchRedux = useDispatch();
+  const [form, setform] = useState({});
   useEffect(() => {
     // Setting the navbar type
     if (fixedNavbar) {
@@ -151,8 +154,25 @@ function DashboardNavbar({ absolute, light, isMini }) {
         {isMini ? null : (
           <VuiBox sx={(theme) => navbarRow(theme, { isMini })}>
             <VuiBox pr={1}>
-              <VuiInput
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  dispatchRedux(SEARCH_STATE(form?.search));
+                  setform({search:''})
+                }}
+              >
+                <input
+                  onChange={(e) => {
+                    setform({ ...form, search: e.target.value });
+                  }}
+                  value={form?.search}
+                  type="text"
+                  className="w-full text-white rounded-2xl animation duration-200 focus:border-2 bg-transparent h-10 text-sm"
+                  placeholder="Search Here"
+                />
+                {/* <VuiInput
                 placeholder="Type here..."
+               
                 icon={{ component: "search", direction: "left" }}
                 sx={({ breakpoints }) => ({
                   [breakpoints.down("sm")]: {
@@ -163,7 +183,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   },
                   backgroundColor: "info.main !important",
                 })}
-              />
+                /> */}
+              </form>
             </VuiBox>
             <VuiBox color={light ? "white" : "inherit"}>
               <Link to="/authentication/sign-in">

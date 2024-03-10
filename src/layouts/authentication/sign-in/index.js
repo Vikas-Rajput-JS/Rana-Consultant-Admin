@@ -39,12 +39,36 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 
 // Images
 import bgSignIn from "assets/images/signInImage.png";
+import ApiClient from "APIs/ApiClient";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { LOGIN_SUCCESS } from "Redux/Action/Action";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(true);
-
+  const dispatch = useDispatch();
+  const history = useHistory();
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const [form, setform] = useState({});
 
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+    ApiClient.post("admin/login", form).then((res1) => {
+      if (res1.success) {
+        toast.success(res1.message);
+        let setToken = localStorage.setItem("token", res1?.token);
+        if (setToken) {
+          ApiClient.get("admin/profile").then((res) => {
+            if (res.success) {
+              dispatch(LOGIN_SUCCESS(res?.data));
+              history.push("/dashboard");
+            }
+          });
+        }
+      }
+    });
+  };
   return (
     <CoverLayout
       title="Nice to see you!"
@@ -54,83 +78,51 @@ function SignIn() {
       motto="THE VISION UI DASHBOARD"
       image={bgSignIn}
     >
-      <VuiBox component="form" role="form">
-        <VuiBox mb={2}>
-          <VuiBox mb={1} ml={0.5}>
-            <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-              Email
-            </VuiTypography>
-          </VuiBox>
-          <GradientBorder
-            minWidth="100%"
-            padding="1px"
-            borderRadius={borders.borderRadius.lg}
-            backgroundImage={radialGradient(
-              palette.gradients.borderLight.main,
-              palette.gradients.borderLight.state,
-              palette.gradients.borderLight.angle
-            )}
-          >
-            <VuiInput type="email" placeholder="Your email..." fontWeight="500" />
-          </GradientBorder>
-        </VuiBox>
-        <VuiBox mb={2}>
-          <VuiBox mb={1} ml={0.5}>
-            <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-              Password
-            </VuiTypography>
-          </VuiBox>
-          <GradientBorder
-            minWidth="100%"
-            borderRadius={borders.borderRadius.lg}
-            padding="1px"
-            backgroundImage={radialGradient(
-              palette.gradients.borderLight.main,
-              palette.gradients.borderLight.state,
-              palette.gradients.borderLight.angle
-            )}
-          >
-            <VuiInput
-              type="password"
-              placeholder="Your password..."
-              sx={({ typography: { size } }) => ({
-                fontSize: size.sm,
-              })}
+      <div className="w-[100%] flex flex-col h-[40vh] justify-center ">
+        <form onSubmit={HandleSubmit}>
+          <div className="flex flex-col">
+            <label className="text-md text-white">Email</label>
+            <input
+              type="text"
+              className=" w-full mt-2 rounded-2xl bg-[#0f1535] text-white animation duration-200"
+              placeholder="Email Address"
+              name=""
+              onChange={(e) => {
+                setform({ ...form, email: e.target.value });
+              }}
+              value={form?.email}
+              required
+              id=""
             />
-          </GradientBorder>
-        </VuiBox>
-        <VuiBox display="flex" alignItems="center">
-          <VuiSwitch color="info" checked={rememberMe} onChange={handleSetRememberMe} />
-          <VuiTypography
-            variant="caption"
-            color="white"
-            fontWeight="medium"
-            onClick={handleSetRememberMe}
-            sx={{ cursor: "pointer", userSelect: "none" }}
-          >
-            &nbsp;&nbsp;&nbsp;&nbsp;Remember me
-          </VuiTypography>
-        </VuiBox>
-        <VuiBox mt={4} mb={1}>
-          <VuiButton color="info" fullWidth>
-            SIGN IN
-          </VuiButton>
-        </VuiBox>
-        <VuiBox mt={3} textAlign="center">
-          <VuiTypography variant="button" color="text" fontWeight="regular">
-            Don&apos;t have an account?{" "}
-            <VuiTypography
-              component={Link}
-              to="/authentication/sign-up"
-              variant="button"
-              color="white"
-              fontWeight="medium"
+          </div>
+          <div className="flex flex-col mt-4">
+            <label className="text-md text-white">Password</label>
+            <input
+              type="password"
+              className="animation duration-200 w-full mt-2 rounded-2xl bg-[#0f1535] text-white"
+              placeholder="***********"
+              name=""
+              onChange={(e) => {
+                setform({ ...form, password: e.target.value });
+              }}
+              value={form?.password}
+              required
+              id=""
+            />
+            <span className="text-sm cursor-pointer hover:text-blue-800 animation duration-200 text-white mt-2">
+              Forgot Password ?
+            </span>
+          </div>
+          <div className="mt-5">
+            <button
+              type="submit"
+              class="before:ease relative h-12 w-full rounded-2xl overflow-hidden border border-green-500 bg-green-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-green-500 hover:before:-translate-x-40 font-semibold text-xs"
             >
-              Sign up
-            </VuiTypography>
-          </VuiTypography>
-        </VuiBox>
-      </VuiBox>
+              <span relative="relative z-10 ">SIGN IN</span>
+            </button>
+          </div>
+        </form>
+      </div>
     </CoverLayout>
   );
 }

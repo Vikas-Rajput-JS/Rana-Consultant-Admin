@@ -47,6 +47,7 @@ import routes from "routes";
 
 // Vision UI Dashboard React contexts
 import { useVisionUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -151,10 +152,13 @@ export default function App() {
           </>
         )}
         {layout === "vr" && <Configurator />}
+        <>
+        <Toaster/>
         <Switch>
           {getRoutes(routes)}
           <Redirect from="*" to="/dashboard" />
         </Switch>
+        </>
       </ThemeProvider>
     </CacheProvider>
   ) : (
@@ -165,7 +169,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand=""
-            brandName="VISION UI FREE"
+            brandName="Rana Consultant"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -175,10 +179,13 @@ export default function App() {
         </>
       )}
       {layout === "vr" && <Configurator />}
+      <>
+      <Toaster/>
       <Switch>
         {getRoutes(routes)}
         <Redirect from="*" to="/dashboard" />
       </Switch>
+      </>
     </ThemeProvider>
   );
 }

@@ -23,14 +23,24 @@ import App from "App";
 
 // Vision UI Dashboard React Context Provider
 import { VisionUIControllerProvider } from "context";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor } from "Store";
+import { Provider } from "react-redux";
+import { Store } from "Store";
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 
 root.render(<BrowserRouter>
+<Provider store={Store}>
+
+<PersistGate loading={null} persistor={persistor}>
   <VisionUIControllerProvider>
     <App />
   </VisionUIControllerProvider>
-</BrowserRouter>)
+</PersistGate>
+</Provider>
+</BrowserRouter>
+)
 
