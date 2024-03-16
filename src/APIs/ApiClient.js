@@ -18,7 +18,7 @@ var config = {
     headers: { 'Content-Type': 'application/json' },
 };
 var imageUrl = 'https://api.imgbb.com/1/upload?key=81e51e4b5abab8382e2f6561ba765ef8'
-var baseUrl = Environment.LocalURL
+var baseUrl = Environment.API_URL
 
 
 const handleError = (err, hideError) => {
