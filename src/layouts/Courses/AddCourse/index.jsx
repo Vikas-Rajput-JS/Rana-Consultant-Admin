@@ -49,9 +49,10 @@ function AddCourse() {
       if (res.success) {
         toast.success(res.message);
         history.goBack();
+
       }
+      Loader(false);
     });
-    Loader(false);
   };
 
   return (
