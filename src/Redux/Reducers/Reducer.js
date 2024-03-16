@@ -1,6 +1,7 @@
 const initialState = {
   user: {},
   search: "",
+  tab: "",
 };
 
 const Reducer = (state = initialState, action) => {
@@ -14,6 +15,12 @@ const Reducer = (state = initialState, action) => {
 
     case "LOGOUT_SUCCESS":
       return state;
+      break;
+    case "CHANGE_TAB":
+      return {
+        ...state,
+        tab: action.payload,
+      };
       break;
 
     case "SEARCH_STATE":

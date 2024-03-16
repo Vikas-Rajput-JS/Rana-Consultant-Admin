@@ -16,7 +16,7 @@
 
 */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -51,7 +51,7 @@ function SignIn() {
   const history = useHistory();
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [form, setform] = useState({});
-
+const token = localStorage.getItem('token')
   const HandleSubmit = (e) => {
     e.preventDefault();
     ApiClient.post("admin/login", form).then((res1) => {
@@ -70,6 +70,12 @@ function SignIn() {
       }
     });
   };
+
+  useEffect(()=>{
+if(token){
+  history.push('/dashboard')
+}
+  },[token])
   return (
     <CoverLayout
       title="Nice to see you!"

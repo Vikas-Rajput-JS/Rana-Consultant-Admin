@@ -57,6 +57,7 @@ import { IoStatsChart } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
 import AddUser from "layouts/User/AddUser";
 import Users from "layouts/User/Html"
+import Courses from "layouts/Courses/Html";
 
 const routes = [
   {
@@ -68,15 +69,15 @@ const routes = [
     component: Dashboard,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Tables",
-    key: "tables",
-    route: "/tables",
-    icon: <IoStatsChart size="15px" color="inherit" />,
-    component: Tables,
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Tables",
+  //   key: "tables",
+  //   route: "/tables",
+  //   icon: <IoStatsChart size="15px" color="inherit" />,
+  //   component: Tables,
+  //   noCollapse: true,
+  // },
   {
     type: "collapse",
     name: "Billing",
@@ -96,22 +97,40 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "AddUser",
-    key: "adduser",
-    route: "/add-user",
+    name: "Courses",
+    key: "courses",
+    route: "/courses",
     icon: <BsCreditCardFill size="15px" color="inherit" />,
-    component: AddUser,
+    component: Courses,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    route: "/rtl",
-    icon: <IoBuild size="15px" color="inherit" />,
-    component: RTL,
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "AddCourse",
+  //   key: "addcourse",
+  //   route: "/add-course",
+  //   icon: <BsCreditCardFill size="15px" color="inherit" />,
+  //   component: AddCourse,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "AddUser",
+  //   key: "adduser",
+  //   route: "/add-user",
+  //   icon: <BsCreditCardFill size="15px" color="inherit" />,
+  //   component: AddUser,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   route: "/rtl",
+  //   icon: <IoBuild size="15px" color="inherit" />,
+  //   component: RTL,
+  //   noCollapse: true,
+  // },
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
     type: "collapse",
@@ -122,24 +141,24 @@ const routes = [
     component: Profile,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    route: "/sign-in",
-    icon: <IoIosDocument size="15px" color="inherit" />,
-    component: SignIn,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/sign-up",
-    icon: <IoRocketSharp size="15px" color="inherit" />,
-    component: SignUp,
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Sign In",
+  //   key: "sign-in",
+  //   route: "/sign-in",
+  //   icon: <IoIosDocument size="15px" color="inherit" />,
+  //   component: SignIn,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Sign Up",
+  //   key: "sign-up",
+  //   route: "/sign-up",
+  //   icon: <IoRocketSharp size="15px" color="inherit" />,
+  //   component: SignUp,
+  //   noCollapse: true,
+  // },
 ];
 
 export default routes;

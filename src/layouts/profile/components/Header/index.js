@@ -37,10 +37,16 @@ import { IoBuild } from "react-icons/io5";
 // Vision UI Dashboard React example components
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useEffect, useState } from "react";
+import { CHANGE_TABS } from "Redux/Action/Action";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function Header() {
+function Header({ OpenTab }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+const history = useHistory()
+  const dispatch = useDispatch();
+  const URLPath = window.location.pathname;
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -135,18 +141,36 @@ function Header() {
             </VuiBox>
           </Grid>
           <Grid item xs={12} md={6} lg={6.5} xl={6} xxl={4} sx={{ ml: "auto" }}>
-            <AppBar position="static">
-              <Tabs
-                orientation={tabsOrientation}
-                value={tabValue}
-                onChange={handleSetTabValue}
-                sx={{ background: "transparent", display: "flex", justifyContent: "flex-end" }}
-              >
-                <Tab label="OVERVIEW" icon={<IoCube color="white" size="16px" />} />
-                <Tab label="TEAMS" icon={<IoDocument color="white" size="16px" />} />
-                <Tab label="PROJECTS" icon={<IoBuild color="white" size="16px" />} />
-              </Tabs>
-            </AppBar>
+            <div className="w-full h-10 flex justify-end">
+              {URLPath == "/users" && (
+                <a
+                  onClick={() => {
+                    dispatch(CHANGE_TABS("adduser"));
+                    history.push("/add-user");
+                  }}
+                  class="relative inline-flex cursor-pointer items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group"
+                >
+                  <span class="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                  <span class="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+                    Add User
+                  </span>
+                </a>
+              )}
+              {URLPath == "/courses" && (
+                <a
+                  onClick={() => {
+                    dispatch(CHANGE_TABS("addcourse"));
+                    history.push("/add-course");
+                  }}
+                  class="relative inline-flex cursor-pointer items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group"
+                >
+                  <span class="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                  <span class="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+                    Add Course
+                  </span>
+                </a>
+              )}
+            </div>
           </Grid>
         </Grid>
       </Card>

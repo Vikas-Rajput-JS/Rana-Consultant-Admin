@@ -1,29 +1,36 @@
 import ApiClient from "APIs/ApiClient";
 import Environment from "Environment/environment";
+import Loader from "Redux/Action/Loader";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Header from "layouts/profile/components/Header";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function Users() {
   const [filters, setfilters] = useState({});
   const [listdata, setdata] = useState([]);
-    const SearchState = useSelector((state)=>state)
+
+  const history = useHistory();
+  const SearchState = useSelector((state) => state?.Reducer?.search);
+
   const GetUsers = (p = {}) => {
-    let filter = { ...filters, ...p };
-    ApiClient.get("users").then((res) => {
+    Loader(true);
+    let filter = { ...filters, ...p,search:SearchState };
+    ApiClient.get("users", filter).then((res) => {
       if (res.success) {
         setdata(res?.data);
+        Loader(false);
       }
     });
   };
 
-  console.log(SearchState,'====================')
+console.log(SearchState)
 
   useEffect(() => {
     GetUsers();
-  }, []);
+  }, [SearchState]);
 
   return (
     <>
@@ -35,16 +42,26 @@ function Users() {
               <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                 <div class="py-3 px-4">
                   <div class="relative max-w-xs">
-                    <label for="hs-table-search" class="sr-only">
-                      Search
-                    </label>
-                    <input
-                      type="text"
-                      name="hs-table-search"
-                      id="hs-table-search"
-                      class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                      placeholder="Search Here"
-                    />
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        GetUsers({ search: filters.search });
+                      }}
+                    >
+                      <label for="hs-table-search" class="sr-only">
+                        Search
+                      </label>
+                      <input
+                        onChange={(e) => {
+                          setfilters({ ...filters, search: e.target.value });
+                        }}
+                        type="text"
+                        name="hs-table-search"
+                        id="hs-table-search"
+                        class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                        placeholder="Search Here"
+                      />
+                    </form>
                     <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
                       <svg
                         class="size-4 text-gray-400"

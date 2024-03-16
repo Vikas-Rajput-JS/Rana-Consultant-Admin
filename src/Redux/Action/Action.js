@@ -15,4 +15,10 @@ export const SEARCH_STATE = (data)=>{
         payload:data
     }
 }
+export const CHANGE_TABS = (data)=>{
+    return{
+        type:"CHANGE_TAB",
+        payload:data
+    }
+}
 

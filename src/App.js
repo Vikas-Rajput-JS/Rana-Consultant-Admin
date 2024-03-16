@@ -16,6 +16,26 @@
 
 */
 
+// Vision UI Dashboard React layouts
+import Dashboard from "layouts/dashboard";
+import Tables from "layouts/tables";
+import Billing from "layouts/billing";
+import RTL from "layouts/rtl";
+import Profile from "layouts/profile";
+import SignIn from "layouts/authentication/sign-in";
+import SignUp from "layouts/authentication/sign-up";
+
+// Vision UI Dashboard React icons
+import { IoRocketSharp } from "react-icons/io5";
+import { IoIosDocument } from "react-icons/io";
+import { BsFillPersonFill } from "react-icons/bs";
+import { IoBuild } from "react-icons/io5";
+import { BsCreditCardFill } from "react-icons/bs";
+import { IoStatsChart } from "react-icons/io5";
+import { IoHome } from "react-icons/io5";
+import AddUser from "layouts/User/AddUser";
+import Users from "layouts/User/Html";
+
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
@@ -48,6 +68,9 @@ import routes from "routes";
 // Vision UI Dashboard React contexts
 import { useVisionUIController, setMiniSidenav, setOpenConfigurator } from "context";
 import { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import AddCourse from "layouts/Courses/AddCourse";
+import Courses from "layouts/Courses/Html";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -55,6 +78,7 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+  const TABS = useSelector((state) => state?.user?.tab);
 
   // Cache for the rtl
   useMemo(() => {
@@ -153,16 +177,116 @@ export default function App() {
         )}
         {layout === "vr" && <Configurator />}
         <>
-        <Toaster/>
-        <Switch>
-          {getRoutes(routes)}
-          <Redirect from="*" to="/dashboard" />
-        </Switch>
+          <Toaster />
+          <Switch>
+            {getRoutes([
+              {
+                type: "collapse",
+                name: "Dashboard",
+                key: "dashboard",
+                route: "/dashboard",
+                icon: <IoHome size="15px" color="inherit" />,
+                component: Dashboard,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Tables",
+                key: "tables",
+                route: "/tables",
+                icon: <IoStatsChart size="15px" color="inherit" />,
+                component: Tables,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Billing",
+                key: "billing",
+                route: "/billing",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: Billing,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Users",
+                key: "users",
+                route: "/users",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: Users,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "AddUser",
+                key: "adduser",
+                route: "/add-user",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: AddUser,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Courses",
+                key: "courses",
+                route: "/courses",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: Courses,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "AddCourse",
+                key: "addcourse",
+                route: "/add-course",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: AddCourse,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Sign In",
+                key: "sign-in",
+                route: "/sign-in",
+                icon: <IoIosDocument size="15px" color="inherit" />,
+                component: SignIn,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Sign Up",
+                key: "sign-up",
+                route: "/sign-up",
+                icon: <IoRocketSharp size="15px" color="inherit" />,
+                component: SignUp,
+                noCollapse: true,
+              },
+            ])}
+            <Redirect from="*" to="/sign-in" />
+          </Switch>
         </>
       </ThemeProvider>
     </CacheProvider>
   ) : (
     <ThemeProvider theme={theme}>
+      <div
+        id="Loader"
+        className="w-[100%] h-full hidden flex justify-center items-center absolute   z-[1000] "
+        style={{
+          backgroundImage: "url(https://i.stack.imgur.com/kOnzy.gif)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100px,100px",
+          backgroundPosition: "center",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        {/* <img
+          src="https://i.stack.imgur.com/kOnzy.gif"
+          className="w-12 h-12  "
+          alt=""
+        /> */}
+      </div>
+
       <CssBaseline />
       {layout === "dashboard" && (
         <>
@@ -180,11 +304,112 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <>
-      <Toaster/>
-      <Switch>
-        {getRoutes(routes)}
-        <Redirect from="*" to="/dashboard" />
-      </Switch>
+        <Toaster />
+        <Switch>
+          {getRoutes([
+            {
+              type: "collapse",
+              name: "Dashboard",
+              key: "dashboard",
+              route: "/dashboard",
+              icon: <IoHome size="15px" color="inherit" />,
+              component: Dashboard,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Tables",
+              key: "tables",
+              route: "/tables",
+              icon: <IoStatsChart size="15px" color="inherit" />,
+              component: Tables,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Billing",
+              key: "billing",
+              route: "/billing",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: Billing,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Users",
+              key: "users",
+              route: "/users",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: Users,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "AddUser",
+              key: "adduser",
+              route: "/add-user",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: AddUser,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Courses",
+              key: "courses",
+              route: "/courses",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: Courses,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "AddCourse",
+              key: "addcourse",
+              route: "/add-course",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: AddCourse,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "RTL",
+              key: "rtl",
+              route: "/rtl",
+              icon: <IoBuild size="15px" color="inherit" />,
+              component: RTL,
+              noCollapse: true,
+            },
+            { type: "title", title: "Account Pages", key: "account-pages" },
+            {
+              type: "collapse",
+              name: "Profile",
+              key: "profile",
+              route: "/profile",
+              icon: <BsFillPersonFill size="15px" color="inherit" />,
+              component: Profile,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Sign In",
+              key: "sign-in",
+              route: "/sign-in",
+              icon: <IoIosDocument size="15px" color="inherit" />,
+              component: SignIn,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Sign Up",
+              key: "sign-up",
+              route: "/sign-up",
+              icon: <IoRocketSharp size="15px" color="inherit" />,
+              component: SignUp,
+              noCollapse: true,
+            },
+          ])}
+          <Redirect from="*" to="/sign-in" />
+        </Switch>
       </>
     </ThemeProvider>
   );

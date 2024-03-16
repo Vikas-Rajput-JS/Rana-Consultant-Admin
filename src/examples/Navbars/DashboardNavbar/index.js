@@ -158,7 +158,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   dispatchRedux(SEARCH_STATE(form?.search));
-                  setform({search:''})
+                  // setform({ search: "" });
                 }}
               >
                 <input

@@ -17,7 +17,7 @@
 */
 
 import React from "react";
-import { createRoot} from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 import "./index.css";
@@ -28,19 +28,17 @@ import { persistor } from "Store";
 import { Provider } from "react-redux";
 import { Store } from "Store";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
-
-root.render(<BrowserRouter>
-<Provider store={Store}>
-
-<PersistGate loading={null} persistor={persistor}>
-  <VisionUIControllerProvider>
-    <App />
-  </VisionUIControllerProvider>
-</PersistGate>
-</Provider>
-</BrowserRouter>
-)
-
+root.render(
+  <BrowserRouter>
+    <Provider store={Store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <VisionUIControllerProvider>
+          <App />
+        </VisionUIControllerProvider>
+      </PersistGate>
+    </Provider>
+  </BrowserRouter>
+);

@@ -209,7 +209,7 @@ function Sidenav({ color, brandName, routes, ...rest }) {
       </VuiBox>
       <Divider light />
       <List>{renderRoutes}</List>
-      <VuiBox
+      {/* <VuiBox
         my={2}
         mx={2}
         mt="auto"
@@ -239,7 +239,7 @@ function Sidenav({ color, brandName, routes, ...rest }) {
             Upgrade to PRO
           </VuiButton>
         </VuiBox>
-      </VuiBox>
+      </VuiBox> */}
     </SidenavRoot>
   );
 }
