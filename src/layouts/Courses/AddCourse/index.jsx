@@ -23,14 +23,6 @@ function AddCourse() {
       address = await addressModel.getAddress(e.place);
     }
 
-    useEffect(() => {
-      Loader(true);
-
-      setTimeout(() => {
-        Loader(false);
-      }, 1000);
-    }, []);
-
     setform({
       ...form,
       address: e.value || "",
