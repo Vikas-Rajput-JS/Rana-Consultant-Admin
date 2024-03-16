@@ -30,8 +30,8 @@ function AddCourse() {
       state: address.state || "",
       country: address.country || "",
       pincode: address.zipcode || "",
-      lat: `${address.lat}` || "",
-      lng: `${address.lng}` || "",
+      // lat: `${address.lat}` || "",
+      // lng: `${address.lng}` || "",
     });
   };
 
