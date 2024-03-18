@@ -58,6 +58,7 @@ import { IoHome } from "react-icons/io5";
 import AddUser from "layouts/User/AddUser";
 import Users from "layouts/User/Html"
 import Courses from "layouts/Courses/Html";
+import AppliedCourse from "layouts/AppliedCourses/Courses/Html";
 
 const routes = [
   {
@@ -102,6 +103,15 @@ const routes = [
     route: "/courses",
     icon: <BsCreditCardFill size="15px" color="inherit" />,
     component: Courses,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Course Request",
+    key: "course-request",
+    route: "/course-request",
+    icon: <BsCreditCardFill size="15px" color="inherit" />,
+    component: AppliedCourse,
     noCollapse: true,
   },
   // {

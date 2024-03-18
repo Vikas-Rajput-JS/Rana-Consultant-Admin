@@ -1,10 +1,13 @@
 import ApiClient from "APIs/ApiClient";
 import Environment from "Environment/environment";
 import Loader from "Redux/Action/Loader";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Header from "layouts/profile/components/Header";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -26,11 +29,28 @@ function Courses() {
     });
   };
 
-console.log(SearchState)
+  const ChangeStatus = (status, id) => {
+    if (window.confirm("Do you want to change status")) {
+      ApiClient.put("course", { status: status == "active" ? "inactive" : "active", id }).then(
+        (res) => {
+          if (res.success) {
+            toast.success("Status updated successfuly");
+            GetCourses();
+          }
+        }
+      );
+    } 
+  };
+
+  const Edit = (id)=>{
+    history.push(`/edit-course/${id}`)
+    console.log(id,'===================')
+  }
+
+  console.log(SearchState);
 
   useEffect(() => {
     GetCourses();
-
   }, [SearchState]);
 
   return (
@@ -93,7 +113,7 @@ console.log(SearchState)
                         >
                           Name
                         </th>
-                     
+
                         <th
                           scope="col"
                           class="px-6 py-3 text-start text-xs font-medium text-white "
@@ -124,7 +144,6 @@ console.log(SearchState)
                         >
                           End Date
                         </th>
-                       
 
                         <th
                           scope="col"
@@ -139,6 +158,9 @@ console.log(SearchState)
                           CreatedAt
                         </th>
                         <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-white ">
+                          Status
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-white ">
                           Action
                         </th>
                       </tr>
@@ -149,16 +171,13 @@ console.log(SearchState)
                           return (
                             <tr>
                               <td class="py-3 ps-4"></td>
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 flex justify-start items-center">
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 ">
                                 {/* <img
                                   src={Environment.API_URL + itm?.image}
                                   className="w-8 h-8 rounded-full"
                                   alt=""
                                 /> */}
-                                <p className="ml-2 cursor-pointer">
-                                  {" "}
-                                  {itm?.name} 
-                                </p>
+                                <p className="ml-2 cursor-pointer"> {itm?.name}</p>
                               </td>
                               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {itm?.collegeName}
@@ -181,12 +200,38 @@ console.log(SearchState)
                               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 {moment(itm?.createdAt).format("DD-MMM-YYYY")}
                               </td>
+                              <td
+                                onClick={() => {
+                                  ChangeStatus(itm?.status, itm?.id);
+                                }}
+                                class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-800 dark:text-gray-200"
+                              >
+                                {itm?.status == "active" ? (
+                                  <div class="b animate-pulse mx-auto h-16 w-14 flex justify-center items-center">
+                                    <div class="i h-8 w-16 text-center bg-green-400 items-center rounded-2xl shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110  transition duration-300 ease-out"></div>
+                                    <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                                      {itm?.status || "--"}
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <div class="b animate-pulse mx-auto h-16 w-14 flex justify-center items-center">
+                                    <div class="i h-8 w-16 text-center bg-yellow-400 items-center rounded-2xl shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110  transition duration-300 ease-out"></div>
+                                    <a class="text-center text-black font-semibold z-10 pointer-events-none">
+                                      {itm?.status || "--"}
+                                    </a>
+                                  </div>
+                                )}
+                              </td>
                               <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                <button type="button">
+                                  <DeleteForeverIcon color="error" fontSize="medium" />
+                                </button>
                                 <button
                                   type="button"
-                                  class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                  className="ml-5"
+                                  onClick={() =>Edit(itm?.id)}
                                 >
-                                  Delete
+                                  <EditIcon color="success" fontSize="medium" />
                                 </button>
                               </td>
                             </tr>

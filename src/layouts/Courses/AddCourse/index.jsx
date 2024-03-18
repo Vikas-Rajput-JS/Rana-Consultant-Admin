@@ -7,15 +7,17 @@ import "./style.css";
 import React, { useEffect, useRef, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import LoadingBar from "react-top-loading-bar";
 import Loader from "Redux/Action/Loader";
 import ApiClient from "APIs/ApiClient";
 import toast from "react-hot-toast";
+import moment from "moment";
 function AddCourse() {
   const [form, setform] = useState({});
   const history = useHistory();
   const ref = useRef();
+  const { id } = useParams();
   const DestinationAddress = async (e) => {
     console.log(e);
     let address = {};
@@ -35,6 +37,22 @@ function AddCourse() {
     });
   };
 
+  const GetCourse = () => {
+    Loader(true);
+    ApiClient.get("course", { id }).then((res) => {
+      if (res.success) {
+        setform(res?.data);
+      }
+      Loader(false);
+    });
+  };
+
+  useEffect(() => {
+    if (id) {
+      GetCourse();
+    }
+  }, [id]);
+  console.log(form);
   const HandleSubmit = (e) => {
     e.preventDefault();
     Loader(true);
@@ -44,12 +62,28 @@ function AddCourse() {
     let value = {
       ...form,
     };
+    if (id) {
+      method = "put";
+      value = {
+        id: form?.id,
+        name: form?.name,
+        collegeName: form?.collegeName,
+        startDate: form?.startDate,
+        endDate: form?.endDate,
+        address: form?.address,
+        city: form?.city,
+        state: form?.state,
+        pincode: form?.pincode,
+        country: form?.country,
+        price: form?.price,
+        registrationFees: form?.registrationFees,
+      };
+    }
 
-    ApiClient.post(url, value).then((res) => {
+    ApiClient.allApi(url, value, method).then((res) => {
       if (res.success) {
         toast.success(res.message);
         history.goBack();
-
       }
       Loader(false);
     });
@@ -87,7 +121,7 @@ function AddCourse() {
                             type="submit"
                             className="flex flex-wrap justify-center w-full px-4 py-2 bg-green-500 animation duration-200 hover:bg-green-600 font-medium text-sm text-white border border-green-500 rounded-md shadow-button"
                           >
-                            <p>Save</p>
+                            <p>{id ? "Update" : "Save"}</p>
                           </button>
                         </div>
                       </div>

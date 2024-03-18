@@ -33,23 +33,7 @@ import VuiAvatar from "components/VuiAvatar";
 
 function DefaultProjectCard({ image, label, title, description, action, authors }) {
   const renderAuthors = authors.map(({ image: media, name }) => (
-    <Tooltip key={name} title={name} placement="bottom">
-      <VuiAvatar
-        src={media}
-        alt={name}
-        size="xs"
-        sx={({ borders: { borderWidth }, palette: { dark }, functions: { rgba } }) => ({
-          border: `${borderWidth[2]} solid ${rgba(dark.focus, 0.5)}`,
-          cursor: "pointer",
-          position: "relative",
-          ml: -1.25,
-
-          "&:hover, &:focus": {
-            zIndex: "10",
-          },
-        })}
-      />
-    </Tooltip>
+    <Tooltip key={name} title={name} placement="bottom"></Tooltip>
   ));
 
   return (
@@ -61,17 +45,11 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
         overflow: "visible",
       }}
     >
-      <VuiBox
-        component="img"
-        src={image}
-        mb="8px"
-        borderRadius="15px"
-        sx={({ breakpoints }) => ({
-          [breakpoints.up("xl")]: {
-            height: "200px",
-          },
-        })}
-      />
+       <iframe src={image} 
+                width="450"
+                height="300"> 
+        </iframe> 
+        <p className="mt-5"></p>
 
       <VuiBox
         sx={({ breakpoints }) => ({
@@ -86,13 +64,14 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
           </VuiTypography>
         </VuiBox>
         <VuiBox mb={1}>
-          {action.type === "internal" ? (
+          {action.type === "download" ? (
             <VuiTypography
               component={Link}
               to={action.route}
               variant="h5"
               color="white"
               textTransform="capitalize"
+              
             >
               {title}
             </VuiTypography>

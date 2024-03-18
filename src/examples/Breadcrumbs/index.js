@@ -29,10 +29,12 @@ import Icon from "@mui/material/Icon";
 // Vision UI Dashboard React components
 import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function Breadcrumbs({ icon, title, route, light }) {
   const routes = route.slice(0, -1);
-
+  console.log(routes,'==========')
+const {id} = useParams()
   return (
     <VuiBox mr={{ xs: 0, xl: 8 }}>
       <MuiBreadcrumbs
@@ -68,17 +70,20 @@ function Breadcrumbs({ icon, title, route, light }) {
             </VuiTypography>
           </Link>
         ))}
-        <VuiTypography
-          variant="button"
-          fontWeight="regular"
-          textTransform="capitalize"
-          color={light ? "white" : "dark"}
-          sx={{ lineHeight: 0 }}
-        >
-          {title.replace("-", " ")}
-        </VuiTypography>
+      {
+        !id&&  <VuiTypography
+        variant="button"
+        fontWeight="regular"
+        textTransform="capitalize"
+        color={light ? "white" : "dark"}
+        sx={{ lineHeight: 0 }}
+      >
+        {title.replace("-", " ")}
+      </VuiTypography>
+      }
       </MuiBreadcrumbs>
-      <VuiTypography
+      {
+        !id&&<VuiTypography
         fontWeight="bold"
         textTransform="capitalize"
         variant="h6"
@@ -87,6 +92,7 @@ function Breadcrumbs({ icon, title, route, light }) {
       >
         {title.replace("-", " ")}
       </VuiTypography>
+      }
     </VuiBox>
   );
 }

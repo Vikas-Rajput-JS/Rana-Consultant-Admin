@@ -51,31 +51,30 @@ function SignIn() {
   const history = useHistory();
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [form, setform] = useState({});
-const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
   const HandleSubmit = (e) => {
     e.preventDefault();
     ApiClient.post("admin/login", form).then((res1) => {
       if (res1.success) {
         toast.success(res1.message);
         let setToken = localStorage.setItem("token", res1?.token);
-        console.log(setToken)
-    
-          ApiClient.get("admin/profile").then((res) => {
-            if (res.success) {
-              dispatch(LOGIN_SUCCESS(res?.data));
-              history.push("/dashboard");
-            }
-          });
-        
+        console.log(setToken);
+
+        ApiClient.get("admin/profile").then((res) => {
+          if (res.success) {
+            dispatch(LOGIN_SUCCESS(res?.data));
+            history.push("/dashboard");
+          }
+        });
       }
     });
   };
 
-  useEffect(()=>{
-if(token){
-  history.push('/dashboard')
-}
-  },[token])
+  useEffect(() => {
+    if (token) {
+      history.push("/dashboard");
+    }
+  }, [token]);
   return (
     <CoverLayout
       title="Nice to see you!"

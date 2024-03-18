@@ -1,10 +1,13 @@
 import ApiClient from "APIs/ApiClient";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 import Environment from "Environment/environment";
 import Loader from "Redux/Action/Loader";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Header from "layouts/profile/components/Header";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -17,7 +20,7 @@ function Users() {
 
   const GetUsers = (p = {}) => {
     Loader(true);
-    let filter = { ...filters, ...p,search:SearchState };
+    let filter = { ...filters, ...p, search: SearchState };
     ApiClient.get("users", filter).then((res) => {
       if (res.success) {
         setdata(res?.data);
@@ -26,7 +29,29 @@ function Users() {
     });
   };
 
-console.log(SearchState)
+  const Edit = (id)=>{
+    history.push(`/edit-user/${id}`)
+    console.log(id,'===================')
+  }
+
+
+  const ChangeStatus = (status, id) => {
+    Loader(true);
+    if (window.confirm("Do you want to change status")) {
+      ApiClient.put("admin/edit-user", {
+        status: status == "active" ? "inactive" : "active",
+        id,
+      }).then((res) => {
+        if (res.success) {
+          toast.success("Status updated successfuly");
+          GetUsers();
+        }
+        Loader(false)
+      });
+    }
+  };
+
+  console.log(SearchState);
 
   useEffect(() => {
     GetUsers();
@@ -111,6 +136,12 @@ console.log(SearchState)
                         >
                           CreatedAt
                         </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-start text-xs font-medium text-white "
+                        >
+                          Status
+                        </th>
                         <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-white ">
                           Action
                         </th>
@@ -122,7 +153,10 @@ console.log(SearchState)
                           return (
                             <tr>
                               <td class="py-3 ps-4"></td>
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 flex justify-start items-center">
+                              <td
+                                onClick={() => history.push(`view-user/${itm?.id}`)}
+                                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 flex justify-start items-center"
+                              >
                                 <img
                                   src={Environment.API_URL + itm?.image}
                                   className="w-8 h-8 rounded-full"
@@ -143,12 +177,38 @@ console.log(SearchState)
                               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                 {moment(itm?.createdAt).format("DD-MMM-YYYY")}
                               </td>
+                              <td
+                                onClick={() => {
+                                  ChangeStatus(itm?.status, itm?.id);
+                                }}
+                                class="px-6 py-4 whitespace-nowrap text-sm flex justify-center items-center text-gray-800 dark:text-gray-200"
+                              >
+                                {itm?.status == "active" ? (
+                                  <div class="b animate-pulse mx-auto h-16  flex justify-center items-center">
+                                    <div class="i h-8 w-16 text-center bg-green-400 items-center rounded-2xl shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110  transition duration-300 ease-out"></div>
+                                    <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                                      {itm?.status || "--"}
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <div class="b animate-pulse mx-auto h-16 w-14 flex justify-center items-center">
+                                    <div class="i h-8 w-16 text-center bg-yellow-400 items-center rounded-2xl shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110  transition duration-300 ease-out"></div>
+                                    <a class="text-center text-black font-semibold z-10 pointer-events-none">
+                                      {itm?.status || "--"}
+                                    </a>
+                                  </div>
+                                )}
+                              </td>
                               <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                              <button type="button">
+                                  <DeleteForeverIcon color="error" fontSize="medium" />
+                                </button>
                                 <button
                                   type="button"
-                                  class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                                  className="ml-5"
+                                  onClick={() =>Edit(itm?.id)}
                                 >
-                                  Delete
+                                  <EditIcon color="success" fontSize="medium" />
                                 </button>
                               </td>
                             </tr>

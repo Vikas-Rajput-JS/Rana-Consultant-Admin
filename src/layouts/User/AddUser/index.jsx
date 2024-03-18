@@ -7,29 +7,24 @@ import "./style.css";
 import React, { useEffect, useRef, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import LoadingBar from "react-top-loading-bar";
 import Loader from "Redux/Action/Loader";
 import ApiClient from "APIs/ApiClient";
 import toast from "react-hot-toast";
+import Environment from "Environment/environment";
 function AddUser() {
   const [form, setform] = useState({});
   const history = useHistory();
   const ref = useRef();
+  const { id } = useParams();
+  console.log(id);
   const DestinationAddress = async (e) => {
     console.log(e);
     let address = {};
     if (e.place) {
       address = await addressModel.getAddress(e.place);
     }
-
-    useEffect(() => {
-      Loader(true);
-
-      setTimeout(() => {
-        Loader(false);
-      }, 1000);
-    }, []);
 
     setform({
       ...form,
@@ -43,23 +38,72 @@ function AddUser() {
     });
   };
 
+  const GetUser = () => {
+    Loader(true);
+    ApiClient.get("user-detail", { id }).then((res) => {
+      if (res.success) {
+        setform(res?.data);
+      }
+      Loader(false);
+    });
+  };
+
+  useEffect(() => {
+    if (id) {
+      GetUser();
+    }
+  }, [id]);
+
   const HandleSubmit = (e) => {
     e.preventDefault();
     Loader(true);
-    toast.error("dgfdgdfgfdgdfgdgd");
     let method = "post";
     let url = "admin/adduser";
     let value = {
       ...form,
     };
 
-    ApiClient.post(url, value).then((res) => {
+    if (id) {
+      method = "put";
+      value = {
+        id: id,
+        firstName: form?.firstName,
+        lastName: form?.lastName,
+        address: form?.address,
+        city: form?.city,
+        state: form?.state,
+        pincode: form?.pincode,
+        country: form?.country,
+        image: form?.image,
+        mobileNo: form?.mobileNo,
+        dialCode: form?.dialCode,
+      };
+      url = 'admin/edit-user'
+    }
+
+    ApiClient.allApi(url, value, method).then((res) => {
       if (res.success) {
         toast.success(res.message);
         history.goBack();
         Loader(false);
       }
     });
+  };
+
+  const ImageUpload = async (e) => {
+    Loader(true);
+    let file = e.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    let uploadimage = await fetch(Environment.API_URL + "common/imageUpload", {
+      method: "post",
+      body: formData,
+    });
+    let data = await uploadimage.json();
+    if (data.success) {
+      setform({ ...form, image: data?.data?.fullPath });
+    }
+    Loader(false);
   };
 
   return (
@@ -77,32 +121,31 @@ function AddUser() {
                       <p className="text-xs text-white font-medium">Update your personal info</p>
                     </div>
                     <div className="w-full md:w-auto p-2">
-                <div className="flex flex-wrap justify-between -m-1.5">
-                  <div className="w-full md:w-auto p-1.5">
-                    <p
-                      onClick={() => {
-                        history.goBack();
-                      }}
-                      className="flex cursor-pointer flex-wrap justify-center w-full px-4 py-2 font-medium text-sm animation duration-200 text-black hover:bg-[#0075ff] hover:text-black   bg-white rounded-md shadow-button"
-                      // fdprocessedid="ynizbc"
-                    >
-                      <p>Cancel</p>
-                    </p>
-                  </div>
-                  <div className="w-full md:w-auto p-1.5">
-                    <button
-                      type="submit"
-                      className="flex flex-wrap justify-center w-full px-4 py-2 bg-green-500 animation duration-200 hover:bg-green-600 font-medium text-sm text-white border border-green-500 rounded-md shadow-button"
-                    >
-                      <p>Save</p>
-                    </button>
+                      <div className="flex flex-wrap justify-between -m-1.5">
+                        <div className="w-full md:w-auto p-1.5">
+                          <p
+                            onClick={() => {
+                              history.goBack();
+                            }}
+                            className="flex cursor-pointer flex-wrap justify-center w-full px-4 py-2 font-medium text-sm animation duration-200 text-black hover:bg-[#0075ff] hover:text-black   bg-white rounded-md shadow-button"
+                            // fdprocessedid="ynizbc"
+                          >
+                            <p>Cancel</p>
+                          </p>
+                        </div>
+                        <div className="w-full md:w-auto p-1.5">
+                          <button
+                            type="submit"
+                            className="flex flex-wrap justify-center w-full px-4 py-2 bg-green-500 animation duration-200 hover:bg-green-600 font-medium text-sm text-white border border-green-500 rounded-md shadow-button"
+                          >
+                            <p>{id ? "Update" : "Save"}</p>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-                  </div>
-                  
-                </div>
-                
+
                 <div className="py-6 border-b border-coolGray-100">
                   <div className="w-full md:w-9/12">
                     <div className="flex flex-wrap -m-3">
@@ -177,7 +220,7 @@ function AddUser() {
                           value={form?.email}
                           required
                           placeholder="johndoe@flex.co"
-                          // disabled
+                          disabled={id}
                           // fdprocessedid="zj0uqh"
                         />
                       </div>
@@ -242,7 +285,7 @@ function AddUser() {
                             PNG, JPG, GIF or up to 10MB
                           </p>
                           <input
-                            // onChange={UploadImage}
+                            onChange={ImageUpload}
                             id="ImageUploader"
                             className="absolute top-0 left-0 w-full h-full opacity-0"
                             type="file"
@@ -420,7 +463,6 @@ function AddUser() {
             </div>
           </div> */}
               </div>
-          
             </form>
           </div>
         </section>

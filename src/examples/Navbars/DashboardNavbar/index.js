@@ -62,13 +62,16 @@ import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import { useDispatch } from "react-redux";
 import { SEARCH_STATE } from "Redux/Action/Action";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useVisionUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
+  const {id} = useParams()
   const route = useLocation().pathname.split("/").slice(1);
+
   const dispatchRedux = useDispatch();
   const [form, setform] = useState({});
   useEffect(() => {

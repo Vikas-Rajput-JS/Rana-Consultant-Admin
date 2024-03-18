@@ -71,6 +71,10 @@ import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import AddCourse from "layouts/Courses/AddCourse";
 import Courses from "layouts/Courses/Html";
+import AppliedCourse from "layouts/AppliedCourses/Courses/Html";
+import ViewRequest from "layouts/AppliedCourses/Courses/ViewRequest";
+import ViewUser from "layouts/User/ViewUser";
+import ViewCourse from "layouts/Courses/ViewCourse";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -227,6 +231,15 @@ export default function App() {
               },
               {
                 type: "collapse",
+                name: "EditUser",
+                key: "edituser",
+                route: "/edit-user/:id",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: AddUser,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
                 name: "Courses",
                 key: "courses",
                 route: "/courses",
@@ -241,6 +254,33 @@ export default function App() {
                 route: "/add-course",
                 icon: <BsCreditCardFill size="15px" color="inherit" />,
                 component: AddCourse,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "EditCourse",
+                key: "editcourse",
+                route: "/edit-course/:id",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: AddCourse,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "Course Request",
+                key: "Request",
+                route: "/course-request",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: AppliedCourse,
+                noCollapse: true,
+              },
+              {
+                type: "collapse",
+                name: "View Request",
+                key: "view-request",
+                route: "/view-request/:id",
+                icon: <BsCreditCardFill size="15px" color="inherit" />,
+                component: ViewRequest,
                 noCollapse: true,
               },
               {
@@ -354,11 +394,65 @@ export default function App() {
             },
             {
               type: "collapse",
+              name: "EditUser",
+              key: "edituser",
+              route: "/edit-user/:id",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: AddUser,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
               name: "Courses",
               key: "courses",
               route: "/courses",
               icon: <BsCreditCardFill size="15px" color="inherit" />,
               component: Courses,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "EditCourse",
+              key: "editcourse",
+              route: "/edit-course/:id",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: AddCourse,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "Course Request",
+              key: "Request",
+              route: "/course-request",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: AppliedCourse,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "View Request",
+              key: "view-request",
+              route: "/view-request/:id",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: ViewRequest,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "View User",
+              key: "view-user",
+              route: "/view-user/:id",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: ViewUser,
+              noCollapse: true,
+            },
+            {
+              type: "collapse",
+              name: "View Course",
+              key: "view-course",
+              route: "/view-course/:id",
+              icon: <BsCreditCardFill size="15px" color="inherit" />,
+              component: ViewCourse,
               noCollapse: true,
             },
             {

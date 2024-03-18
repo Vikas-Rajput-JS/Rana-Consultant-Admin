@@ -29,9 +29,13 @@ import LineChart from 'examples/Charts/LineCharts/LineChart';
 import { lineChartDataProfile1, lineChartDataProfile2 } from 'variables/charts';
 import { lineChartOptionsProfile2, lineChartOptionsProfile1 } from 'variables/charts';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 const CarInformations = () => {
+const route = useLocation().pathname.split('/').splice(1,1)
 	const { gradients, info } = colors;
 	const { cardContent } = gradients;
+	console.log(route,'==================')
 	return (
 		<Card
 			sx={({ breakpoints }) => ({
@@ -41,11 +45,11 @@ const CarInformations = () => {
 			})}>
 			<VuiBox display='flex' flexDirection='column'>
 				<VuiTypography variant='lg' color='white' fontWeight='bold' mb='6px'>
-					Car Informations
+					{route[0]=='view-request'?"Course":"Cars"} Information
 				</VuiTypography>
-				<VuiTypography variant='button' color='text' fontWeight='regular' mb='30px'>
-					Hello, Mark Johnson! Your Car is ready.
-				</VuiTypography>
+				{/* <VuiTypography variant='button' color='text' fontWeight='regular' mb='30px'>
+					Hello,! Your Car is ready.
+				</VuiTypography> */}
 				<Stack
 					spacing='24px'
 					background='#fff'
