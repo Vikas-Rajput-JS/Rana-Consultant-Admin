@@ -114,7 +114,7 @@ function ViewUser() {
                 Avatar: (
                   <div className="flex justify-normal items-start absolute top-[26px] left-[230px]">
                     <img
-                      src="https://www.pockettactics.com/wp-content/sites/pockettactics/2023/06/best-mobile-games-joyride.jpg"
+                      src={data?.image}
                       style={{ borderRadius: "50%", width: "200px", height: "200px" }}
                       alt=""
                     />

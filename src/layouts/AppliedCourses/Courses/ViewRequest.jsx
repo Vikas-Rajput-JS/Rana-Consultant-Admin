@@ -544,7 +544,7 @@ function ViewRequest() {
                     action={{
                       type: "download",
                       route: data?.user_id?.adhaar
-                        ? Environment.LocalURL + data?.user_id?.adhaar
+                        ? Environment.API_URL + data?.user_id?.adhaar
                         : "",
                       color: "white",
                       label: "Download",
@@ -555,7 +555,7 @@ function ViewRequest() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DefaultProjectCard
                     image={
-                      data?.user_id?.dmc12th ? Environment.LocalURL + data?.user_id?.dmc12th : ""
+                      data?.user_id?.dmc12th ? Environment.API_URL + data?.user_id?.dmc12th : ""
                     }
                     // label="project #1"
                     title="12th DMC"
@@ -563,7 +563,7 @@ function ViewRequest() {
                     action={{
                       type: "download",
                       route: data?.user_id?.dmc12th
-                        ? Environment.LocalURL + data?.user_id?.dmc12th
+                        ? Environment.API_URL + data?.user_id?.dmc12th
                         : "",
                       color: "white",
                       label: "Download",
@@ -582,7 +582,7 @@ function ViewRequest() {
                     action={{
                       type: "download",
                       route: data?.user_id?.dmc10th
-                        ? Environment.LocalURL + data?.user_id?.dmc10th
+                        ? Environment.API_URL + data?.user_id?.dmc10th
                         : "",
                       color: "white",
                       label: "Download",
