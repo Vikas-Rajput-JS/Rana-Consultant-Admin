@@ -536,7 +536,7 @@ function ViewRequest() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DefaultProjectCard
                     image={
-                      data?.user_id?.adhaar ? Environment.LocalURL + data?.user_id?.adhaar : ""
+                      data?.user_id?.adhaar ? Environment.API_URL + data?.user_id?.adhaar : ""
                     }
                     // label="project #2"
                     title="Aadhar Card"
@@ -574,7 +574,7 @@ function ViewRequest() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DefaultProjectCard
                     image={
-                      data?.user_id?.dmc10th ? Environment.LocalURL + data?.user_id?.dmc10th : ""
+                      data?.user_id?.dmc10th ? Environment.API_URL + data?.user_id?.dmc10th : ""
                     }
                     // label="project #3"
                     title="10th DMC"
